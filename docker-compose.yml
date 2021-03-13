@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+
+    online-shop-naming-server:
+        image: shubhdes/online-shop-naming-server:1.0
+        ports:
+            - "5001:8080"
+        networks:
+            - online-shop-network 
+
+    online-shop-api-gateway:
+        image: shubhdes/online-shop-api-gateway:1.0
+        ports:
+            - "6001:8080"
+        networks:
+            - online-shop-network
+        depends_on:
+            - online-shop-naming-server  
+
+    online-shop-browse-item:
+        image: shubhdes/online-shop-browse-item:1.0
+        ports:
+            - "7001:8080"
+        networks:
+            - online-shop-network
+        depends_on:
+            - online-shop-naming-server  
+
+    online-shop-bill-item:
+        image: shubhdes/online-shop-bill-item:1.0
+        ports:
+            - "8001:8080"
+        networks:
+            - online-shop-network
+        depends_on:
+            - online-shop-naming-server
+            - online-shop-browse-item       
+
+networks:
+    online-shop-network:
